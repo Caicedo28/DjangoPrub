@@ -1,0 +1,104 @@
+{% extends "./plantilla.html" %}
+{% block contenido %}
+<div  class="bg-image" style="background-image: url('https://png.pngtree.com/thumb_back/fh260/background/20230525/pngtree-3d-computer-lab-room-image_2620499.jpg'); background-size: cover; background-position: center; background-attachment: fixed; min-height: 100vh; padding: 20px;">
+    <div style="background-color: rgba(0, 0, 0, 0.7); min-height: 100vh; padding: 20px; border-radius: 8px;">
+        <form action="/guardarReserva/" id="frm_nuevo_reserva" method="post" class="container mt-5 p-4 text-light">
+            <h1 class="text-center mb-4">Agregar Nueva Reserva</h1>
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="txt_nombreUsuario" class="form-label"><b>Nombre del Usuario:</b></label>
+                <select name="txt_nombreUsuario" id="txt_nombreUsuario" class="form-select" required>
+                    <option value="" disabled>Seleccione un Usuario</option>
+                    {% for usuario in usuario %}
+                    <option value="{{ usuario.idUsu }}">{{ usuario.nombreUsuario }}&nbsp;{{usuario.apellidoUsuario}} </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="txt_nombreEspacio" class="form-label"><b>Nombre del Espacio:</b></label>
+                <select name="txt_nombreEspacio" id="txt_nombreEspacio" class="form-select" required>
+                    <option value="" disabled>Seleccione un Espacio</option>
+                    {% for espacio in espacio %}
+                    <option value="{{ espacio.idEsp }}">{{ espacio.nombreEspacio }} </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="txt_fechaReserva" class="form-label"><b>Fecha:</b></label>
+                <input type="date" class="form-control" name="txt_fechaReserva" id="txt_fechaReserva" placeholder="Ingrese la Fecha">
+            </div>
+
+            <div class="mb-3">
+                <label for="txt_horaInicio" class="form-label"><b>Hora de Inicio:</b></label>
+                <input type="text" class="form-control" name="txt_horaInicio" id="txt_horaInicio" placeholder="Ingrese la Hora de Inicio">
+            </div>
+
+            <div class="mb-3">
+                <label for="txt_horaFinal" class="form-label"><b>Hora Final:</b></label>
+                <input type="text" class="form-control" name="txt_horaFinal" id="txt_horaFinal" placeholder="Ingrese la Hora Final">
+            </div>
+
+            <div class="mb-3">
+                <label for="txt_estadoReserva" class="form-label"><b>Estado:</b></label>
+                <select class="form-select" name="txt_estadoReserva" id="txt_estadoReserva">
+                    <option value="">---Seleccione---</option>
+                    <option value="Confirmado">CONFIRMADO</option>
+                    <option value="Pendiente">PENDIENTE</option>
+                    <option value="Cancelado">CANCELADO</option>
+                </select>
+            </div>
+            
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary me-3">Guardar</button>
+                <a href="/listadoReserva/" type="reset" class="btn btn-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    $("#frm_nuevo_reserva").validate({
+        rules: {
+            "txt_nombreUsuario": {
+                required: true,
+            },
+            "txt_nombreEspacio": {
+                required: true,
+            },
+            "txt_fechaReserva": {
+                required: true,
+                date: true
+            },
+            "txt_horaInicio": {
+                required: true,
+            },
+            "txt_horaFinal": {
+                required: true,
+            },
+            "txt_estadoReserva": {
+                required: true,
+            },
+        },
+        messages: {
+            "txt_nombreUsuario": {
+                required: "Por favor ingrese el Nombre",
+            },
+            "txt_nombreEspacio": {
+                required: "Por favor ingrese el Nombre",
+            },
+            "txt_fechaReserva": {
+                required: "Por favor ingrese la Fecha de Reserva",
+            },
+            "txt_horaInicio": {
+                required: "Por favor ingrese la Hora de Inicio",
+            },
+            "txt_horaFinal": {
+                required: "Por favor ingrese la Hora Final",
+            },
+            "txt_estadoReserva": {
+                required: "Por favor ingrese el Estado de la Reserva",
+            },
+        },
+    });
+</script>
+{% endblock %}

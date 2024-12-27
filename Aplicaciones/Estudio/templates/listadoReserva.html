@@ -1,0 +1,68 @@
+{% extends "./plantilla.html" %}
+{% block contenido %}
+<div class="bg-image"
+    style="background-image: url('https://png.pngtree.com/thumb_back/fh260/background/20230525/pngtree-3d-computer-lab-room-image_2620499.jpg'); background-size: cover; background-position: center; background-attachment: fixed; min-height: 100vh; padding: 20px;">
+    <div style="background-color: rgba(0, 0, 0, 0.7); min-height: 100vh; padding: 20px; border-radius: 8px;">
+        <div class="container mt-5 p-4 text-light">
+            <h1 style="text-align: center;">Listado de Reservas</h1>
+            <br>
+
+            <!-- Barra de búsqueda -->
+            <div class="mb-3">
+                <input type="text" id="searchInput" class="form-control" placeholder="Buscar en la tabla..." style="max-width: 250px;">
+            </div>
+
+            <div class="table-responsive">
+                <table id="myTable" class="table table-bordered table-striped table-hover text-center">
+                    <thead class="table table-dark table-striped">
+                        <tr>
+                            <th>ID</th>
+                            <th>USUARIO</th>
+                            <th>ESPACIO DE ESTUDIO</th>
+                            <th>FECHA</th>
+                            <th>HORA DE INICIO</th>
+                            <th>HORA FINAL</th>
+                            <th>ESTADO</th>
+                            <th>ACCIONES</th>
+                        </tr>
+                    </thead>
+
+                    {% for est in reserva %}
+
+                    <tr>
+                        <td>{{est.idRes}}</td>
+                        <td>{{est.usuario.nombreUsuario}}&nbsp;{{est.usuario.apellidoUsuario}}</td>
+                        <td>{{est.espacio.nombreEspacio}}</td>
+                        <td>{{est.fechaReserva}}</td>
+                        <td>{{est.horaInicio}}</td>  
+                        <td>{{est.horaFinal}}</td>  
+                        <td>{{est.estadoReserva}}</td>
+                        <td>
+                            <div class="btn-group" role="group">
+                                <a href="/editarReserva/{{est.idRes}}" type="button"
+                                    class="btn btn-outline-primary btn-sm">✏️</a>
+                                &nbsp;&nbsp;&nbsp;
+                                <a onclick="return confirm('Estas Seguro');" href="/eliminarReserva/{{est.idRes}}"
+                                    type="button" class="btn btn-outline-danger btn-sm">⛔</a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Filtro de búsqueda en la tabla
+    document.getElementById('searchInput').addEventListener('input', function () {
+        let filter = this.value.toLowerCase();
+        let rows = document.querySelectorAll('#myTable tbody tr');
+        rows.forEach(row => {
+            let visible = Array.from(row.cells).some(cell => cell.textContent.toLowerCase().includes(filter));
+            row.style.display = visible ? '' : 'none';
+        });
+    });
+</script>
+{% endblock %}

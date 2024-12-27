@@ -1,0 +1,75 @@
+{% extends "./plantilla.html" %}
+{% block contenido %}
+<div  class="bg-image" style="background-image: url('https://png.pngtree.com/thumb_back/fh260/background/20230525/pngtree-3d-computer-lab-room-image_2620499.jpg'); background-size: cover; background-position: center; background-attachment: fixed; min-height: 100vh; padding: 20px;">
+    <div style="background-color: rgba(0, 0, 0, 0.7); min-height: 100vh; padding: 20px; border-radius: 8px;">
+        <form action="/guardarUsuario/" id="frm_nuevo_usuario" method="post" class="container mt-5 p-4 text-light">
+            <h1 class="text-center mb-4">Agregar Nuevo Usuario</h1>
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="txt_nombreUsuario" class="form-label"><b>Nombre:</b></label>
+                <input type="text" class="form-control" name="txt_nombreUsuario" id="txt_nombreUsuario" placeholder="Ingrese su Nombre">
+            </div>
+
+            <div class="mb-3">
+                <label for="txt_apellidUsuario" class="form-label"><b>Apellido:</b></label>
+                <input type="text" class="form-control" name="txt_apellidoUsuario" id="txt_apellidoUsuario" placeholder="Ingrese su Apellido">
+            </div>
+            
+            <div class="mb-3">
+                <label for="txt_correoUsuario" class="form-label"><b>Correo:</b></label>
+                <input type="text" class="form-control" name="txt_correoUsuario" id="txt_correoUsuario" placeholder="Ingrese el Correo Electrónico">
+            </div>
+        
+            <div class="mb-3">
+                <label for="txt_rolUsuario" class="form-label"><b>Rol :</b></label>
+                <select class="form-select" name="txt_rolUsuario" id="txt_rolUsuario">
+                    <option value="">---Seleccione---</option>
+                    <option value="Docente">DOCENTE</option>
+                    <option value="Estudiante">ESTUDIANTE</option>
+                </select>
+            </div>
+            
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary me-3">Guardar</button>
+                <a href="/listadoUsuario/" type="reset" class="btn btn-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    $("#frm_nuevo_usuario").validate({
+        rules: {
+            "txt_nombreUsuario": {
+                required: true,
+                letras: true
+            },
+            "txt_apellidoUsuario": {
+                required: true,
+                letras: true
+            },
+            "txt_correoUsuario": {
+                required: true,
+                email: true,
+            },
+            "txt_rolUsuario": {
+                required: true,
+            },
+        },
+        messages: {
+            "txt_nombreUsuario": {
+                required: "Por favor ingrese el Nombre",
+            },
+            "txt_apellidoUsuario": {
+                required: "Por favor ingrese el Apelido",
+            },
+            "txt_correoCliente": {
+                required: "Por favor ingrese el Correo",
+            },
+            "txt_rolUsuario": {
+                required: "Por favor ingrese el Rol",
+            },
+        },
+    });
+</script>
+{% endblock %}
